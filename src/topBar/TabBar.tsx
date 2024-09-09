@@ -1,20 +1,14 @@
 import {Tab, Tabs} from "@mui/material";
 import {Link} from "react-router-dom";
-import {useState} from "react";
 
 interface TabBarProps {
     tab: string
 }
 
 const TabBar = ({tab}: TabBarProps ) => {
-    const [value, setValue] = useState(tab);
-
-    const handleChange = (_event: React.SyntheticEvent, newValue: string) => setValue(newValue)
-
     return (
         <Tabs
-            value={value}
-            onChange={handleChange}
+            value={tab}
             aria-label="nav tabs example"
             role="navigation"
             textColor="secondary"
