@@ -1,8 +1,9 @@
 import {Tab, Tabs} from "@mui/material";
 import {Link} from "react-router-dom";
+import {Tab as TabType} from "../../hooks/useApplication.tsx";
 
 interface TabBarProps {
-    tab: string
+    tab?: string
 }
 
 const TabBar = ({tab}: TabBarProps ) => {
@@ -14,8 +15,8 @@ const TabBar = ({tab}: TabBarProps ) => {
             textColor="secondary"
             indicatorColor="secondary"
         >
-            <Tab value='root' label="Home" component={Link} to={"/"} />
-            <Tab value='page2' label="Page 2" component={Link} to={"/page2"} />
+            <Tab value={TabType.Applications} label="Applications" component={Link} to={"/dashboard/applications"} />
+            <Tab value={TabType.Interactions} label="Interactions" component={Link} to={"/dashboard/interactions"} />
         </Tabs>
     )
 }
