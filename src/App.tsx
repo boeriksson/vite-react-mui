@@ -1,28 +1,63 @@
 import './App.css'
-import {Route, Routes} from "react-router-dom";
-import LoginPage from "./pages/LoginPage.tsx";
-import {Root} from "./pages/Root.tsx";
-import {HomePage} from "./pages/Home.tsx";
-import {ProtectedLayout} from "./components/ProtectedLayout";
-import ApplicationPage from "./pages/ApplicationPage.tsx";
-import InteractionPage from "./pages/InteractionPage.tsx";
+import {
+    createBrowserRouter,
+    RouterProvider,
+} from 'react-router-dom'
+import {AuthProvider} from './hooks/useAuth.tsx'
+import LoginPage from './pages/LoginPage.tsx'
+import {Root} from './pages/Root.tsx'
+import {HomePage} from './pages/Home.tsx'
+import {ProtectedLayout} from './components/ProtectedLayout'
+import ApplicationPage from './pages/ApplicationPage.tsx'
+import InteractionPage from './pages/InteractionPage.tsx'
+import {ApplicationProvider} from './hooks/useApplication.tsx'
 
 function App() {
 
-  return (
-      <Routes>
-        <Route element={<Root />}>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<LoginPage />} />
-        </Route>
+    const router = createBrowserRouter([
+        {
+            element: <AuthProvider/>,
+            children: [
+                {
+                    element: <ApplicationProvider/>,
+                    children: [
+                        {
+                            element: <Root/>,
+                            children: [
+                                {
+                                    path: '/',
+                                    element: <HomePage/>
+                                },
+                                {
+                                    path: '/login',
+                                    element: <LoginPage/>
+                                }
+                            ]
+                        },
+                        {
+                            path: 'dashboard',
+                            element: <ProtectedLayout/>,
+                            children: [
+                                {
+                                    path: 'applications',
+                                    element: <ApplicationPage/>
+                                },
+                                {
+                                    path: 'interactions',
+                                    element: <InteractionPage/>
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ])
 
-        <Route path="/dashboard" element={<ProtectedLayout />}>
-          <Route path="applications" element={<ApplicationPage />} />
-          <Route path="interactions" element={<InteractionPage />}
-          />
-        </Route>
-      </Routes>
-  )
+    return (
+        <RouterProvider router={router}/>
+    )
 }
 
 export default App
+

@@ -1,5 +1,5 @@
 import { createContext, useContext, useMemo } from 'react'
-import { useNavigate } from 'react-router-dom'
+import {Outlet, useNavigate} from 'react-router-dom'
 import { useLocalStorage } from './useLocalStorage'
 
 interface AuthContextType {
@@ -10,11 +10,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType>({})
 
-interface AuthContextProps {
-    children: React.ReactNode
-}
-
-export const AuthProvider = ({ children }: AuthContextProps) => {
+export const AuthProvider = () => {
     console.log('Running authprovider...')
     const [user, setUser] = useLocalStorage('user', null)
     const navigate = useNavigate()
@@ -37,7 +33,7 @@ export const AuthProvider = ({ children }: AuthContextProps) => {
         }),
         [user]
     )
-    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+    return <AuthContext.Provider value={value}><Outlet/></AuthContext.Provider>
 }
 
 export const useAuth = () => {

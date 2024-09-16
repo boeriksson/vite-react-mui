@@ -1,4 +1,5 @@
 import {createContext, useContext, useMemo, useState} from "react";
+import {Outlet} from "react-router-dom";
 
 export enum Tab {
     Applications = "APPLICATIONS",
@@ -15,7 +16,7 @@ const ApplicationContext = createContext<ApplicationContextType>({
     setTab: () => {}
 })
 
-export const ApplicationProvider = ({children}: { children: React.ReactNode }) => {
+export const ApplicationProvider = () => {
     const [tab, setTab] = useState<Tab>(Tab.Applications)
 
     const value = useMemo(
@@ -26,7 +27,7 @@ export const ApplicationProvider = ({children}: { children: React.ReactNode }) =
         [tab]
     )
 
-    return <ApplicationContext.Provider value={value}>{children}</ApplicationContext.Provider>
+    return <ApplicationContext.Provider value={value}><Outlet/></ApplicationContext.Provider>
 }
 
 export const useApplication = () => {
